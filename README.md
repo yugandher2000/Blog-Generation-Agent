@@ -1,4 +1,4 @@
-# 🤖 Blog Generation Agent
+# Blog Generation Agent
 
 An AI-powered, multi-node blog generation pipeline built with **LangGraph**, **LangChain**, **Groq LLM**, and **Tavily** for real-time web research. The pipeline validates topics, researches facts, generates structured outlines, writes content, optimizes for SEO, checks quality with auto-rewrite loops, translates, and formats the output — all exposed via a **FastAPI** REST API.
 
