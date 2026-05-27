@@ -1,0 +1,61 @@
+# ── Secrets & Environment ──────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python ─────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pyc
+*.pdb
+
+# ── Virtual Environments ───────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── uv ─────────────────────────────────────────────────────────────────────────
+uv.lock
+.python-version
+
+# ── LangGraph runtime artifacts ────────────────────────────────────────────────
+.langgraph_api/
+*.pckl
+
+# ── JetBrains IDE ──────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# ── VS Code ────────────────────────────────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ── Build & Distribution ───────────────────────────────────────────────────────
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+MANIFEST
+
+# ── Testing ────────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+
+# ── Type checking & linting ────────────────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+
+# ── OS ─────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini

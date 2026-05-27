@@ -1,0 +1,14 @@
+langchain
+langgraph
+langchain_community
+langchain_core
+langchain_groq
+fastapi
+uvicorn
+watchdog
+langgraph-cli[inmem]
+dotenv
+pydantic
+h11<0.16
+tavily-python
+markdown
