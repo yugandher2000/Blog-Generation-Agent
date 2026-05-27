@@ -38,6 +38,53 @@ An AI-powered, multi-node blog generation pipeline built with **LangGraph**, **L
 
 ## 🏗️ Architecture
 
+### Graph Visualization
+
+![Blog Generation Agent Graph](docs/images/graph.png)
+
+> 📌 Solid arrows = direct edges &nbsp;|&nbsp; Dashed arrows = conditional edges
+
+### Mermaid Diagram
+
+```mermaid
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+        __start__([<p>__start__</p>]):::first
+        topic_validator(topic_validator)
+        research_node(research_node)
+        outline_generator(outline_generator)
+        title_creation(title_creation)
+        content_generation(content_generation)
+        seo_optimizer(seo_optimizer)
+        quality_checker(quality_checker)
+        content_rewriter(content_rewriter)
+        translator(translator)
+        formatter(formatter)
+        __end__([<p>__end__</p>]):::last
+        __start__ --> topic_validator;
+        content_generation --> seo_optimizer;
+        content_rewriter --> quality_checker;
+        outline_generator --> title_creation;
+        quality_checker -.-> content_rewriter;
+        quality_checker -.-> translator;
+        research_node --> outline_generator;
+        seo_optimizer --> quality_checker;
+        title_creation --> content_generation;
+        topic_validator -.-> __end__;
+        topic_validator -.-> research_node;
+        translator --> formatter;
+        formatter --> __end__;
+        classDef default fill:#f2f0ff,line-height:1.2
+        classDef first fill-opacity:0
+        classDef last fill:#bfb6fc
+```
+
+### Node Descriptions
+
 ```
 START
   │
