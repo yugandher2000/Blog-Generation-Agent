@@ -42,7 +42,79 @@ An AI-powered, multi-node blog generation pipeline built with **LangGraph**, **L
 
 ![Blog Generation Agent Graph](docs/images/graph.png)
 
-> 📌 Solid arrows = direct edges &nbsp;|&nbsp; Dashed arrows = conditional edges
+### Console Graph
+
+```
+╔══════════════════════════════════════════════════════════════════════╗
+║           🤖  BLOG GENERATION AGENT  —  PIPELINE GRAPH              ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+                          ┌───────────────┐
+                          │    __start__  │
+                          └───────┬───────┘
+                                  │
+                                  ▼
+                    ┌─────────────────────────┐
+                    │     topic_validator     │  ── Validates & refines topic
+                    └────────────┬────────────┘
+                                 │
+              ╔══════════════════╩═══════════════════╗
+              ║  conditional edge                    ║
+              ▼                                      ▼
+       ┌─────────────┐                 ┌─────────────────────────┐
+       │   __end__   │ ◄── [invalid]   │      research_node      │  ── Tavily web search
+       └─────────────┘                 └────────────┬────────────┘
+                                                    │
+                                                    ▼
+                                       ┌────────────────────────┐
+                                       │   outline_generator    │  ── Structured outline
+                                       └────────────┬───────────┘
+                                                    │
+                                                    ▼
+                                       ┌────────────────────────┐
+                                       │    title_creation      │  ── SEO-friendly title
+                                       └────────────┬───────────┘
+                                                    │
+                                                    ▼
+                                       ┌────────────────────────┐
+                                       │  content_generation    │  ── Full blog content
+                                       └────────────┬───────────┘
+                                                    │
+                                                    ▼
+                                       ┌────────────────────────┐
+                                       │    seo_optimizer       │  ── Keywords, meta, slug
+                                       └────────────┬───────────┘
+                                                    │
+                                                    ▼
+                               ┌────────────────────────────────────┐
+                               │          quality_checker           │  ── Score 1–10
+                               └──────────────┬─────────────────────┘
+                                              │
+              ╔═══════════════════════════════╩══════════════════════════╗
+              ║  conditional edge                                        ║
+              ▼                                                          ▼
+  ┌───────────────────────┐                              ┌──────────────────────────┐
+  │    content_rewriter   │  ◄── [score < 7             │       translator         │  ◄── [score ≥ 7]
+  │                       │       rewrites < 3]          │  (no-op if English)      │
+  └───────────┬───────────┘                              └─────────────┬────────────┘
+              │                                                        │
+              └──────────────► quality_checker ◄──────── (loop ≤ 3)   │
+                                                                       ▼
+                                                          ┌────────────────────────┐
+                                                          │       formatter        │  ── md / html / json
+                                                          └────────────┬───────────┘
+                                                                       │
+                                                                       ▼
+                                                               ┌──────────────┐
+                                                               │   __end__    │
+                                                               └──────────────┘
+
+──────────────────────────────────────────────────────────────────────────────
+  Legend:   ──►  direct edge        ══►  conditional edge       ◄──  loop
+──────────────────────────────────────────────────────────────────────────────
+  Nodes:    10 total  │  Conditional edges: 2  │  Max rewrites: 3
+──────────────────────────────────────────────────────────────────────────────
+```
 
 ### Mermaid Diagram
 
@@ -83,45 +155,6 @@ graph TD;
         classDef last fill:#bfb6fc
 ```
 
-### Node Descriptions
-
-```
-START
-  │
-  ▼
-[topic_validator]       ← validates & refines topic; rejects harmful content
-  │  (conditional edge)
-  ├─ invalid ──────────────────────────────────────────────────────► END
-  │
-  ▼ valid
-[research_node]         ← fetches 5 real-world sources via Tavily API
-  │
-  ▼
-[outline_generator]     ← creates structured outline with sections & subsections
-  │
-  ▼
-[title_creation]        ← generates SEO-friendly title from outline
-  │
-  ▼
-[content_generation]    ← writes full blog guided by outline + research
-  │
-  ▼
-[seo_optimizer]         ← extracts keywords, meta description, slug, tags
-  │
-  ▼
-[quality_checker]       ← scores content 1–10 with detailed feedback
-  │  (conditional edge)
-  ├─ score < 7 & rewrites < 3 ──► [content_rewriter] ──► (loop back)
-  │
-  ▼ score ≥ 7
-[translator]            ← translates to target language (no-op if English)
-  │
-  ▼
-[formatter]             ← converts to markdown / html / json
-  │
-  ▼
- END
-```
 
 ---
 
